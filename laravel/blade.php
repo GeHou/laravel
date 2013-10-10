@@ -359,18 +359,18 @@ class Blade {
 	}
 
 	/**
-	 * Rewrites Blade @yield statements into Section statements.
+	 * Rewrites Blade @yieldContent statements into Section statements.
 	 *
-	 * The Blade @yield statement is a shortcut to the Section::yield method.
+	 * The Blade @yieldContent statement is a shortcut to the Section::yieldContent method.
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	protected static function compile_yields($value)
 	{
-		$pattern = static::matcher('yield');
+		$pattern = static::matcher('yieldContent');
 
-		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yield$2; ?>', $value);
+		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yieldContent$2; ?>', $value);
 	}
 
 	/**
