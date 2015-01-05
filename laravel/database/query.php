@@ -674,6 +674,7 @@ class Query {
 		// by another column from the result set.
 		$values = array_map(function($row) use ($column)
 		{
+			$row = (object) $row;
 			return $row->$column;
 
 		}, $results);
@@ -686,6 +687,7 @@ class Query {
 		{
 			return array_combine(array_map(function($row) use ($key)
 			{
+				$row = (object) $row;
 				return $row->$key;
 
 			}, $results), $values);
