@@ -33,15 +33,22 @@ class Fluent extends Driver {
 	{
 		$user = $this->get_user($arguments);
 
+		// hou fix bug
+ 		if(is_array($user)) {
+ 			$user = (object) $user;
+ 		}
+
 		// If the credentials match what is in the database we will just
 		// log the user into the application and remember them if asked.
 		$password = $arguments['password'];
 
 		$password_field = Config::get('auth.password', 'password');
+		// hou fix bug
+		$id_field = Config::get('auth.id', 'id');
 
 		if ( ! is_null($user) and Hash::check($password, $user->{$password_field}))
 		{
-			return $this->login($user->id, array_get($arguments, 'remember'));
+			return $this->login($user->{$id_field}, array_get($arguments, 'remember'));
 		}
 
 		return false;
