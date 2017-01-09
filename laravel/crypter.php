@@ -33,6 +33,7 @@ class Crypter {
 	 */
 	public static function encrypt($value)
 	{
+		/*
 		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
 
 		$value = static::pad($value);
@@ -40,6 +41,13 @@ class Crypter {
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
 		return base64_encode($iv.$value);
+		*/
+
+		$value = static::pad($value);
+
+		$encrypted = openssl_encrypt($value, 'aes-256-cbc', base64_decode(static::key()), OPENSSL_RAW_DATA, base64_decode(static::get_iv()));
+
+		return base64_encode($encrypted);
 	}
 
 	/**
@@ -50,6 +58,7 @@ class Crypter {
 	 */
 	public static function decrypt($value)
 	{
+		/*
 		$value = base64_decode($value);
 
 		// To decrypt the value, we first need to extract the input vector and
@@ -67,6 +76,13 @@ class Crypter {
 		$value = mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv);
 
 		return static::unpad($value);
+		*/
+
+		$encrypted = base64_decode($value);
+
+		$decrypted = openssl_decrypt($encrypted, 'aes-256-cbc', base64_decode(static::key()), OPENSSL_RAW_DATA, base64_decode(static::get_iv()));
+
+		return static::unpad($decrypted);
 	}
 
 	/**
@@ -106,6 +122,11 @@ class Crypter {
 	protected static function iv_size()
 	{
 		return mcrypt_get_iv_size(static::$cipher, static::$mode);
+	}
+
+	protected static function get_iv()
+	{
+		return 'x2xJCnctEG09danPPI7SxQ==';
 	}
 
 	/**
