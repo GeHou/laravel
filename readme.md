@@ -65,3 +65,14 @@ git commit -s -m "this commit will be signed off automatically!"
 ## License
 
 Laravel is open-sourced software licensed under the MIT License.
+
+
+## 中文文档
+
+[v3.golaravel.com](http://v3.golaravel.com/)
+
+## 伪静态规则
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
